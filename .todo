@@ -1,0 +1,14 @@
+1. Configuração do ambiente
+    readme.md
+
+2. Mostrar comandos básicos para criação do projeto
+    lein new app-name app
+    lein run
+
+3. Mostrar este projeto
+    Funcionamento geral
+    Atribuição de variáveis no -main
+    Estrutura e documentação das funções 
+    Função como parâmetro (ordem superior) em read-number [print | println]
+    Lambda 
+

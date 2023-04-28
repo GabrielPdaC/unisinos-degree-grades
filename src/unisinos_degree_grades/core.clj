@@ -10,10 +10,10 @@
    Returns:
    - [string] Representation of the number entered by the user.
     his function calculates the area of a rectangle."
-  [message]
-  (print message)
+  [print-function message]
+  (print-function message)
   (flush)
-  (read-line))
+  (Float/parseFloat (read-line)))
 
 (defn average
   "Calculate the average of two grades, considering that the second grade (gb) has a weight of 2.
@@ -27,6 +27,18 @@
 
   [ga gb]
   (/ (+ ga (* 2.0 gb)) 3.0))
+
+(defn average-vector 
+  "Calculate the average of a vector of grades.
+  
+  Args:
+  - vector: Grades
+  
+  Returns:
+  - [number] The avarge between all grades."
+  
+  [vector]
+  (/ (reduce + vector) (count vector)))
 
 (defn needs-gc?
   "Determines if a student needs to take a make-up exam based on their average score.
@@ -57,12 +69,30 @@
       "A"
       "B")))
 
-(defn -main []
-  (let [ga (Float/parseFloat (read-number "Digite a nota do GA: "))
-        gb (Float/parseFloat (read-number "Digite a nota do GB: "))
-        avarage (average ga gb)
-        needs-gc (needs-gc? avarage)]
+(defn main-loop 
+  "Loop to collect the grades
+   
+   Args:
+   - index: Grade of
+   
+   Returns
+   - [number] Average"
+  [index]
+  (let [ga (read-number print (format "\n\nDigite a nota do aluno %d GA: " index))
+        gb (read-number print (format "Digite a nota do aluno %d GB: " index))
+        average (average ga gb)
+        needs-gc (needs-gc? average)]
 
-    (println (format "A sua media foi: %.2f" avarage))
-    (when needs-gc
-      [(print (format "Voce precisa de grau C. A nota mais facil de recuperar e o grau %s" (easier-test-to-recover ga gb)))])))
+    (println (format "A media do aluno foi: %.2f" average))
+    (if needs-gc
+      [(println "O aluno precisa de grau C.")
+       (print (format "A prova mais facil de recuperar e o grau %s" (easier-test-to-recover ga gb)))]
+      (print "Parabens, aluno aprovado!"))
+    average))
+
+(defn -main [] 
+  (let [ grades (loop [i 0 v []]
+           (if (< i 5)
+             (recur (inc i) (conj v (main-loop (+ i 1))))
+             v))]
+    (print (format "\n\nA media da turma foi: %.2f" (average-vector grades)))))
