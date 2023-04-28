@@ -28,7 +28,7 @@
   [ga gb]
   (/ (+ ga (* 2.0 gb)) 3.0))
 
-(defn average-vector 
+(defn average-vector
   "Calculate the average of a vector of grades.
   
   Args:
@@ -36,7 +36,7 @@
   
   Returns:
   - [number] The avarge between all grades."
-  
+
   [vector]
   (/ (reduce + vector) (count vector)))
 
@@ -69,7 +69,7 @@
       "A"
       "B")))
 
-(defn main-loop 
+(defn main-loop
   "Loop to collect the grades
    
    Args:
@@ -90,9 +90,12 @@
       (print "Parabens, aluno aprovado!"))
     average))
 
-(defn -main [] 
-  (let [ grades (loop [i 0 v []]
-           (if (< i 5)
-             (recur (inc i) (conj v (main-loop (+ i 1))))
-             v))]
-    (print (format "\n\nA media da turma foi: %.2f" (average-vector grades)))))
+;;; Lambda function
+(def loop-function (loop [i 0 v []]
+                     (if (< i 5)
+                       (recur (inc i) (conj v (main-loop (+ i 1))))
+                       v)))
+
+(defn -main []
+  (let [grades loop-function]
+    (print (format "\n\nA media da turma foi: %.2f\n\n" (average-vector grades)))))
